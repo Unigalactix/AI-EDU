@@ -1,0 +1,56 @@
+---
+/**
+ * CodeTabs — show the JavaScript and Python implementations of the same idea
+ * side-by-side (toggleable). Use inside MDX:
+ *
+ *   <CodeTabs>
+ *     <Fragment slot="js">```js ... ```</Fragment>
+ *     <Fragment slot="python">```python ... ```</Fragment>
+ *   </CodeTabs>
+ *
+ * The client script wires up every block independently, so multiple CodeTabs
+ * can coexist on one page.
+ */
+---
+
+<div class="codetabs" data-codetabs>
+  <div class="codetabs-bar" role="tablist" aria-label="Language">
+    <button class="codetabs-btn active" role="tab" data-lang="js" aria-selected="true">JavaScript</button>
+    <button class="codetabs-btn" role="tab" data-lang="python" aria-selected="false">Python</button>
+  </div>
+  <div class="codetabs-panel" data-lang="js"><slot name="js" /></div>
+  <div class="codetabs-panel" data-lang="python" hidden><slot name="python" /></div>
+</div>
+
+<style>
+  .codetabs { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin: 1.25rem 0; }
+  .codetabs-bar { display: flex; gap: 0; background: var(--bg-elev-2); border-bottom: 1px solid var(--border); }
+  .codetabs-btn {
+    background: transparent; border: none; color: var(--text-dim);
+    padding: 0.55rem 1rem; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    border-bottom: 2px solid transparent;
+  }
+  .codetabs-btn.active { color: var(--text); border-bottom-color: var(--accent); }
+  .codetabs-panel :global(pre) { margin: 0; border: none; border-radius: 0; }
+</style>
+
+<script>
+  // Wire up every CodeTabs block independently.
+  document.querySelectorAll('[data-codetabs]').forEach((root) => {
+    const btns = root.querySelectorAll('.codetabs-btn');
+    const panels = root.querySelectorAll('.codetabs-panel');
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        btns.forEach((b) => {
+          const active = b === btn;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-selected', String(active));
+        });
+        panels.forEach((p) => {
+          (p as HTMLElement).hidden = p.getAttribute('data-lang') !== lang;
+        });
+      });
+    });
+  });
+</script>

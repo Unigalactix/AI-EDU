@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL;
+const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const categories = ['fundamentals', 'prompting', 'architecture'] as const;
+const labels: Record<string, string> = {
+  fundamentals: 'LLM fundamentals',
+  prompting: 'Prompting strategies',
+  architecture: 'Architecture patterns',
+};
+---
+
+<BaseLayout title="Technical notes">
+  <h1>Technical notes</h1>
+  <p class="lead" style="color:var(--text-dim);">
+    The mechanics behind the projects — how language models work, how to prompt them
+    well, and the architectural patterns that turn a model into a system.
+  </p>
+  {categories.map((cat) => (
+    <section>
+      <h2>{labels[cat]}</h2>
+      <div class="grid cols-2">
+        {notes.filter((n) => n.data.category === cat).map((n) => (
+          <a class="card" href={link(`notes/${n.id}`)} style="color:inherit;">
+            <h3>{n.data.title}</h3>
+            <p>{n.data.summary}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  ))}
+</BaseLayout>

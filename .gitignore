@@ -1,0 +1,30 @@
+# build output
+dist/
+.output/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# environment
+.env
+.env.production
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / os
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/

@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL;
+const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const featured = projects.slice(0, 6);
+---
+
+<BaseLayout title="Learn AI Engineering by building">
+  <section class="hero">
+    <h1>Learn AI Engineering<br />by <span style="color:var(--accent)">building</span>.</h1>
+    <p class="lead">
+      A hands-on curriculum that teaches RAG, Agentic RAG, multi-agent systems and
+      agent teams through small, self-contained projects. Every demo runs entirely
+      in your browser with mock models and static data — no API keys, nothing to install.
+    </p>
+    <div class="cta">
+      <a class="btn" href={link('roadmap')}>Start the roadmap →</a>
+      <a class="btn secondary" href={link('projects')}>Browse projects</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why this works</h2>
+    <div class="grid cols-3">
+      <div class="card">
+        <h3>🧪 Learn by doing</h3>
+        <p>Each technique is a tiny, runnable project. Tweak the input, run the pipeline, and watch the reasoning trace step by step.</p>
+      </div>
+      <div class="card">
+        <h3>🐍 Python + 🟨 JavaScript</h3>
+        <p>Every project ships both implementations side by side. The JS version runs live here; the Python version is yours to run locally.</p>
+      </div>
+      <div class="card">
+        <h3>📖 Read the mechanics</h3>
+        <p>Technical notes on LLMs, prompting and architecture are woven into every project, so you understand <em>why</em>, not just <em>how</em>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The projects</h2>
+    <div class="grid cols-3">
+      {featured.map((p) => (
+        <a class="card" href={link(`projects/${p.id}`)} style="color:inherit;">
+          <div class="meta">
+            <span class={`badge ${p.data.track}`}>{p.data.track}</span>
+            <span class={`badge ${p.data.difficulty}`}>{p.data.difficulty}</span>
+          </div>
+          <h3>{p.data.title}</h3>
+          <p>{p.data.summary}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

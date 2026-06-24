@@ -1,0 +1,66 @@
+---
+title: "02 · Embeddings & Vector Search"
+summary: "Turn text into vectors and rank documents by cosine similarity — the retrieval engine behind every RAG system."
+order: 2
+track: primer
+difficulty: beginner
+technique: "Semantic Search"
+demo: embeddings
+dataset: knowledge-base
+duration: "20 min"
+concepts: ["embeddings", "cosine similarity", "top-k"]
+---
+
+import CodeTabs from '../../components/ui/CodeTabs.astro';
+
+## What you'll learn
+
+An **embedding** maps text to a vector of numbers so that texts with similar
+meaning sit close together. To search, you embed the query, compare it to every
+document with **cosine similarity**, and keep the **top-k** closest matches.
+
+In the demo, type a query and watch the similarity bars re-rank the documents
+live. This ranking *is* the "R" in RAG.
+
+## How our embeddings work
+
+Real models learn embeddings from massive data. We can't run one on GitHub Pages,
+so we use a deterministic **bag-of-words hashing vector**: each word is hashed
+into one of 64 buckets and counted, then the vector is L2-normalised so cosine
+similarity becomes a simple dot product. It isn't semantically clever, but it
+demonstrates the *exact* mechanics — and it's perfectly reproducible.
+
+<CodeTabs>
+  <Fragment slot="js">
+```js
+import { fakeEmbed, cosineSimilarity, retrieve } from '@lib/js';
+
+const a = fakeEmbed('how does retrieval work');
+const b = fakeEmbed('retrieval finds relevant documents');
+cosineSimilarity(a, b); // → a number; higher means more similar
+
+// Top-3 most similar docs from a corpus:
+retrieve('how does retrieval work', corpus, 3);
+```
+  </Fragment>
+  <Fragment slot="python">
+```python
+from _shared.embeddings import fake_embed, cosine_similarity, retrieve
+
+a = fake_embed("how does retrieval work")
+b = fake_embed("retrieval finds relevant documents")
+cosine_similarity(a, b)  # → a number; higher means more similar
+
+# Top-3 most similar docs from a corpus:
+retrieve("how does retrieval work", corpus, k=3)
+```
+  </Fragment>
+</CodeTabs>
+
+## Why this matters
+
+- **Semantic, not keyword.** Embeddings match meaning, so "car" can rank near "automobile".
+- **Top-k is a knob.** Retrieve too few and you miss context; too many and you add noise.
+- **Vectors scale.** A real **vector database** indexes millions of vectors for millisecond search.
+
+> Next up: feed these retrieved chunks into a model and you've built **RAG**.

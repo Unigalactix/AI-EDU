@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL;
+const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+---
+
+<BaseLayout title="Projects">
+  <h1>Projects</h1>
+  <p class="lead" style="color:var(--text-dim);">Seven self-contained builds, from your first prompt to a coordinated team of agents.</p>
+  <div class="grid cols-2">
+    {projects.map((p) => (
+      <a class="card" href={link(`projects/${p.id}`)} style="color:inherit;">
+        <div class="meta">
+          <span class="chip">#{p.data.order}</span>
+          <span class={`badge ${p.data.track}`}>{p.data.track}</span>
+          <span class={`badge ${p.data.difficulty}`}>{p.data.difficulty}</span>
+          <span class="chip">{p.data.technique}</span>
+        </div>
+        <h3>{p.data.title}</h3>
+        <p>{p.data.summary}</p>
+        <div class="meta" style="margin-top:0.8rem;">
+          {p.data.concepts.map((c) => <span class="chip">{c}</span>)}
+        </div>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

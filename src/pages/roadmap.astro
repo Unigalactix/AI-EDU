@@ -1,0 +1,62 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL;
+const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const primers = projects.filter((p) => p.data.track === 'primer');
+const core = projects.filter((p) => p.data.track === 'core');
+---
+
+<BaseLayout title="Roadmap">
+  <h1>Learning roadmap</h1>
+  <p class="lead" style="color:var(--text-dim); max-width:65ch;">
+    Work top to bottom. The primers build the muscles — prompting, embeddings and
+    tool use — that every agentic technique depends on. Then the core track stacks
+    those skills into full RAG and multi-agent architectures.
+  </p>
+
+  <h2>Foundations (primers)</h2>
+  <ol class="track">
+    {primers.map((p) => (
+      <li>
+        <a href={link(`projects/${p.id}`)}>
+          <div class="track-head">
+            <span class="track-num">{p.data.order}</span>
+            <strong>{p.data.title}</strong>
+            <span class={`badge ${p.data.difficulty}`}>{p.data.difficulty}</span>
+            <span class="chip">{p.data.duration}</span>
+          </div>
+          <p>{p.data.summary}</p>
+        </a>
+      </li>
+    ))}
+  </ol>
+
+  <h2>Core techniques</h2>
+  <ol class="track">
+    {core.map((p) => (
+      <li>
+        <a href={link(`projects/${p.id}`)}>
+          <div class="track-head">
+            <span class="track-num">{p.data.order}</span>
+            <strong>{p.data.title}</strong>
+            <span class={`badge ${p.data.difficulty}`}>{p.data.difficulty}</span>
+            <span class="chip">{p.data.duration}</span>
+          </div>
+          <p>{p.data.summary}</p>
+        </a>
+      </li>
+    ))}
+  </ol>
+</BaseLayout>
+
+<style>
+  .track { list-style: none; padding: 0; display: grid; gap: 0.8rem; }
+  .track a { display: block; background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.2rem; color: inherit; }
+  .track a:hover { border-color: var(--accent); text-decoration: none; }
+  .track-head { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
+  .track-num { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.85rem; }
+  .track p { margin: 0.5rem 0 0; color: var(--text-dim); font-size: 0.95rem; }
+</style>

@@ -1,0 +1,82 @@
+---
+title: "01 · Prompt Playground"
+summary: "Discover how a prompt's structure — system persona, user request, and grounding context — shapes a model's output."
+order: 1
+track: primer
+difficulty: beginner
+technique: "Prompt Engineering"
+demo: prompting
+duration: "15 min"
+concepts: ["system prompt", "grounding", "few-shot"]
+---
+
+import CodeTabs from '../../components/ui/CodeTabs.astro';
+
+## What you'll learn
+
+A prompt is more than a question. Most production prompts have three parts:
+
+1. **System message** — sets the persona and rules ("You are a concise analyst").
+2. **User message** — the actual request.
+3. **Context** — trusted source text the model should answer *from*.
+
+In the demo, toggle the persona and the grounding context on and off. Notice how
+adding context makes the answer quote real source text instead of guessing — this
+is **grounding**, and it's the single most effective way to reduce hallucination.
+
+## How the mock model works
+
+To keep everything offline, our `mockLLM` doesn't predict tokens — it *ranks the
+sentences in the context by how much they overlap with your prompt* and returns
+the best ones, prefixed by the persona. It's a teaching stand-in, but the lesson
+is real: **the prompt and the context fully determine the output.**
+
+<CodeTabs>
+  <Fragment slot="js">
+```js
+import { mockLLM } from '@lib/js';
+
+// No grounding — the model has nothing to quote.
+mockLLM('Why does grounding reduce hallucination?');
+
+// With a persona + grounding context.
+mockLLM('Why does grounding reduce hallucination?', {
+  system: 'concise analyst',
+  context: [
+    'Grounding means giving the model trusted source text to answer from. ' +
+    'When the model quotes retrieved context instead of relying on memory, ' +
+    'it is less likely to invent facts.'
+  ],
+});
+```
+  </Fragment>
+  <Fragment slot="python">
+```python
+from _shared.mock_llm import mock_llm
+
+# No grounding — the model has nothing to quote.
+mock_llm("Why does grounding reduce hallucination?")
+
+# With a persona + grounding context.
+mock_llm(
+    "Why does grounding reduce hallucination?",
+    system="concise analyst",
+    context=[
+        "Grounding means giving the model trusted source text to answer from. "
+        "When the model quotes retrieved context instead of relying on memory, "
+        "it is less likely to invent facts."
+    ],
+)
+```
+  </Fragment>
+</CodeTabs>
+
+## Prompting strategies to try
+
+- **Be explicit about format.** "Answer in one sentence" or "return a bullet list".
+- **Few-shot.** Show 1–3 examples of the input→output you want.
+- **Chain-of-thought.** Ask the model to reason step by step before answering.
+- **Ground it.** Provide sources and say "answer only from the context above".
+
+> Rule of thumb: if you can't get a good answer, the fix is usually *more or better
+> context*, not a cleverer question.

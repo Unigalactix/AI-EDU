@@ -1,0 +1,40 @@
+---
+/**
+ * DemoLoader — given a `demo` key from project frontmatter, mount the matching
+ * interactive island (hydrated client-side). Datasets are loaded at runtime
+ * from /public/datasets so everything stays static + offline.
+ */
+import PromptingDemo from './PromptingDemo';
+import EmbeddingsDemo from './EmbeddingsDemo';
+import ToolsDemo from './ToolsDemo';
+import PipelineDemo from './PipelineDemo';
+
+interface Props {
+  demo: string;
+  dataset?: string;
+}
+const { demo, dataset = 'knowledge-base' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+
+const pipelineExamples = [
+  'What is retrieval augmented generation?',
+  'Why do agents use tools?',
+  'How does a vector database help?',
+];
+---
+
+{demo === 'prompting' && <PromptingDemo client:visible />}
+{demo === 'embeddings' && <EmbeddingsDemo client:visible dataset={dataset} base={base} />}
+{demo === 'tools' && (
+  <ToolsDemo client:visible dataset={dataset} base={base} examples={['What is 23 * 19?', 'Look up vector database', 'Find agentic RAG']} />
+)}
+{demo === 'rag' && <PipelineDemo client:visible pipeline="rag" dataset={dataset} base={base} examples={pipelineExamples} />}
+{demo === 'agentic-rag' && (
+  <PipelineDemo client:visible pipeline="agentic-rag" dataset={dataset} base={base} examples={pipelineExamples} />
+)}
+{demo === 'multi-agent' && (
+  <PipelineDemo client:visible pipeline="multi-agent" dataset={dataset} base={base} examples={pipelineExamples} />
+)}
+{demo === 'agent-teams' && (
+  <PipelineDemo client:visible pipeline="agent-teams" dataset={dataset} base={base} examples={['What is 144 / 12?', 'Summarise multi-agent systems', 'Calculate 87 + 56']} />
+)}

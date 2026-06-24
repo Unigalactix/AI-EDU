@@ -1,0 +1,44 @@
+---
+title: "Architecture patterns: from RAG to agent teams"
+summary: "How the four core patterns relate, and when to reach for each one."
+order: 1
+category: architecture
+---
+
+## A ladder of patterns
+
+Each pattern adds one capability to the previous one:
+
+| Pattern | Adds | Use when |
+| --- | --- | --- |
+| **RAG** | Grounding via one retrieval | Answers must cite a known knowledge base |
+| **Agentic RAG** | A reasoning loop around retrieval | Questions are vague, multi-part, or need retries |
+| **Multi-Agent** | Role specialisation + handoffs | A task has distinct stages (research → analyse → write) |
+| **Agent Teams** | A supervisor that routes & merges | Multiple task types need different specialists |
+
+## RAG: retrieve-then-read
+
+The baseline. Retrieve top-k chunks, put them in the prompt, generate. Cheap,
+reliable, and the right default for most "answer from our docs" problems.
+
+## Agentic RAG: judge and retry
+
+Wrap retrieval in a loop: grade relevance, rewrite the query, retrieve again.
+Costs more calls but rescues hard queries. **Always cap the loop iterations.**
+
+## Multi-agent: specialise the work
+
+Split into focused roles with narrow prompts. Easier to test and debug because the
+trace shows exactly which agent produced which output.
+
+## Agent teams: orchestrate
+
+A supervisor routes each request to the right team and reviews the result. This is
+how you scale to many task types without one mega-prompt. Keep the router simple
+and let teams encapsulate their own internal agents.
+
+## Choosing well
+
+> Start at the **bottom** of the ladder. Only climb when a concrete limitation
+> forces you to — every rung adds latency, cost, and failure modes. The best
+> architecture is the *simplest one that works*.

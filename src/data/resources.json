@@ -1,0 +1,41 @@
+{
+  "sections": [
+    {
+      "title": "Foundational papers",
+      "blurb": "The primary sources behind modern LLMs and retrieval-augmented systems.",
+      "items": [
+        { "name": "Attention Is All You Need (Transformer)", "author": "Vaswani et al., 2017", "url": "https://arxiv.org/abs/1706.03762", "note": "The architecture every modern LLM is built on." },
+        { "name": "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks", "author": "Lewis et al., 2020", "url": "https://arxiv.org/abs/2005.11401", "note": "The paper that introduced RAG." },
+        { "name": "Dense Passage Retrieval (DPR)", "author": "Karpukhin et al., 2020", "url": "https://arxiv.org/abs/2004.04906", "note": "Embedding-based retrieval that powers modern RAG." },
+        { "name": "ReAct: Synergizing Reasoning and Acting in Language Models", "author": "Yao et al., 2022", "url": "https://arxiv.org/abs/2210.03629", "note": "The reason+act loop behind tool-using agents." },
+        { "name": "Chain-of-Thought Prompting", "author": "Wei et al., 2022", "url": "https://arxiv.org/abs/2201.11903", "note": "Step-by-step reasoning improves complex tasks." },
+        { "name": "Toolformer: Language Models Can Teach Themselves to Use Tools", "author": "Schick et al., 2023", "url": "https://arxiv.org/abs/2302.04761", "note": "Models learning when and how to call tools." },
+        { "name": "Self-RAG: Learning to Retrieve, Generate, and Critique", "author": "Asai et al., 2023", "url": "https://arxiv.org/abs/2310.11511", "note": "Self-reflective retrieval — the idea behind Agentic RAG." }
+      ]
+    },
+    {
+      "title": "Guides & documentation",
+      "blurb": "Practical, well-maintained references you'll come back to.",
+      "items": [
+        { "name": "OpenAI Prompt Engineering Guide", "author": "OpenAI", "url": "https://platform.openai.com/docs/guides/prompt-engineering", "note": "Official, practical prompting patterns." },
+        { "name": "Prompt Engineering Guide (DAIR.AI)", "author": "DAIR.AI", "url": "https://www.promptingguide.ai/", "note": "Comprehensive open guide to prompting techniques." },
+        { "name": "LangChain — RAG concepts", "author": "LangChain", "url": "https://python.langchain.com/docs/concepts/rag/", "note": "How retrieval pipelines are structured in practice." },
+        { "name": "LlamaIndex — Agentic RAG", "author": "LlamaIndex", "url": "https://docs.llamaindex.ai/", "note": "Routing, query rewriting and tool-using retrieval." },
+        { "name": "Hugging Face — Transformers course", "author": "Hugging Face", "url": "https://huggingface.co/learn", "note": "Free, hands-on intro to the model stack." },
+        { "name": "Anthropic — Building effective agents", "author": "Anthropic", "url": "https://www.anthropic.com/research/building-effective-agents", "note": "When to use workflows vs. agents, with patterns." }
+      ]
+    },
+    {
+      "title": "Articles & tutorials",
+      "blurb": "Approachable deep-dives and Medium-style write-ups to supplement each project.",
+      "items": [
+        { "name": "What is Retrieval-Augmented Generation?", "author": "NVIDIA Blog", "url": "https://blogs.nvidia.com/blog/what-is-retrieval-augmented-generation/", "note": "Clear conceptual overview of RAG." },
+        { "name": "A Visual Guide to Vector Embeddings", "author": "Medium / Towards Data Science", "url": "https://towardsdatascience.com/", "note": "Build intuition for embeddings and similarity." },
+        { "name": "Agentic RAG explained", "author": "Medium / Towards AI", "url": "https://pub.towardsai.net/", "note": "Walkthrough of self-correcting retrieval loops." },
+        { "name": "Multi-Agent LLM systems: patterns", "author": "Medium", "url": "https://medium.com/tag/multi-agent-systems", "note": "Curated tag of multi-agent architecture write-ups." },
+        { "name": "The Illustrated Transformer", "author": "Jay Alammar", "url": "https://jalammar.github.io/illustrated-transformer/", "note": "The clearest visual explanation of attention." },
+        { "name": "Patterns for Building LLM-based Systems & Products", "author": "Eugene Yan", "url": "https://eugeneyan.com/writing/llm-patterns/", "note": "Evaluation, RAG, caching and guardrails in production." }
+      ]
+    }
+  ]
+}

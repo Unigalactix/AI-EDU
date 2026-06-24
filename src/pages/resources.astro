@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import resources from '../data/resources.json';
+---
+
+<BaseLayout title="Resources">
+  <h1>Curated resources</h1>
+  <p class="lead" style="color:var(--text-dim); max-width:65ch;">
+    A hand-picked reading list to go deeper than the demos. Start with whatever maps
+    to the project you're on, then follow the foundational papers when you want the
+    full picture.
+  </p>
+
+  {resources.sections.map((section) => (
+    <section>
+      <h2>{section.title}</h2>
+      <p style="color:var(--text-dim); margin-top:-0.4rem;">{section.blurb}</p>
+      <ul class="reslist">
+        {section.items.map((item) => (
+          <li>
+            <a href={item.url} target="_blank" rel="noopener">{item.name}</a>
+            <span class="author"> · {item.author}</span>
+            <p>{item.note}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>
+
+<style>
+  .reslist { list-style: none; padding: 0; display: grid; gap: 0.75rem; }
+  .reslist li { background: var(--bg-elev); border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem 1.1rem; }
+  .reslist a { font-weight: 600; }
+  .reslist .author { color: var(--text-dim); font-size: 0.88rem; }
+  .reslist p { margin: 0.3rem 0 0; color: var(--text-dim); font-size: 0.9rem; }
+</style>

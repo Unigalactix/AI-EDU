@@ -1,0 +1,62 @@
+[
+  {
+    "id": "kb-rag",
+    "title": "Retrieval Augmented Generation (RAG)",
+    "text": "Retrieval augmented generation combines a search step with a language model. First a retriever finds the most relevant documents for a question, then those documents are placed into the prompt as context, and finally the model generates an answer grounded in that retrieved context. RAG reduces hallucination because the model quotes real sources instead of relying only on memory, and it lets you update knowledge by changing the documents rather than retraining the model.",
+    "meta": { "tags": ["rag", "retrieval", "grounding"] }
+  },
+  {
+    "id": "kb-embeddings",
+    "title": "Embeddings and vector search",
+    "text": "An embedding maps a piece of text to a vector of numbers so that texts with similar meaning sit close together in vector space. To search, you embed the query and compare it to every document vector using cosine similarity, then keep the top matches. A vector database stores these vectors and makes similarity search fast at scale. Embeddings are the foundation of semantic search and of the retrieval step in RAG.",
+    "meta": { "tags": ["embeddings", "vectors", "cosine"] }
+  },
+  {
+    "id": "kb-agents",
+    "title": "Agents and tool use",
+    "text": "An agent is a language model placed inside a loop that can take actions. The model decides whether to call a tool such as a calculator, a search function, or an external API, the tool runs, and its result is fed back into the next prompt. This loop lets the model do things it cannot do from memory alone, like fresh calculations or looking up current data. Tool calling is the core mechanism that turns a passive model into an agent.",
+    "meta": { "tags": ["agents", "tools", "function-calling"] }
+  },
+  {
+    "id": "kb-agentic-rag",
+    "title": "Agentic RAG",
+    "text": "Agentic RAG adds reasoning around the retrieval step. Instead of retrieving once, the agent can judge whether the retrieved context is good enough, rewrite or expand the query when results look weak, retrieve again, and only then answer. This self-correction loop handles vague or multi-part questions far better than a single fixed retrieval pass.",
+    "meta": { "tags": ["agentic-rag", "self-correction", "query-rewrite"] }
+  },
+  {
+    "id": "kb-multi-agent",
+    "title": "Multi-agent systems",
+    "text": "A multi-agent system splits a task across several specialised agents that each have a focused role, such as a researcher that gathers evidence, an analyst that interprets it, and a writer that composes the final answer. Agents hand off their output to one another. Specialisation keeps each prompt simple and makes the overall behaviour easier to reason about and debug.",
+    "meta": { "tags": ["multi-agent", "roles", "handoff"] }
+  },
+  {
+    "id": "kb-agent-teams",
+    "title": "Agent teams and orchestration",
+    "text": "Agent teams add a supervisor or orchestrator that routes a task to the right team and merges their results. The supervisor inspects the request, delegates to a specialised team such as a quantitative team or a research team, lets that team run its own internal agents, and then reviews and returns the final answer. Orchestration is how you scale from a single agent to a coordinated organisation of agents.",
+    "meta": { "tags": ["agent-teams", "supervisor", "orchestration"] }
+  },
+  {
+    "id": "kb-prompting",
+    "title": "Prompting strategies",
+    "text": "A prompt usually has a system message that sets the persona and rules, a user message with the actual request, and optional context with grounding sources. Clear instructions, explicit output format, few-shot examples, and chain-of-thought style step-by-step reasoning all improve results. Giving the model trusted context to quote is one of the strongest ways to improve accuracy.",
+    "meta": { "tags": ["prompting", "system-prompt", "few-shot"] }
+  },
+  {
+    "id": "kb-hallucination",
+    "title": "Hallucination and grounding",
+    "text": "A hallucination is when a model states something confidently that is not true. Grounding the model in retrieved source text reduces hallucination because the answer is built from real documents rather than guessed from memory. Citing sources and asking the model to answer only from the provided context are practical mitigations.",
+    "meta": { "tags": ["hallucination", "grounding", "accuracy"] }
+  },
+  {
+    "id": "kb-chunking",
+    "title": "Chunking and context windows",
+    "text": "A context window is the maximum amount of text a model can read at once. Long documents are split into smaller chunks so that only the most relevant pieces are retrieved and fitted into the window. Good chunking keeps related ideas together and overlaps slightly so meaning is not cut in half. Chunk size is a key tuning knob in any RAG system.",
+    "meta": { "tags": ["chunking", "context-window", "tuning"] }
+  },
+  {
+    "id": "kb-vector-db",
+    "title": "Vector databases",
+    "text": "A vector database stores embeddings and supports fast approximate nearest neighbour search so you can retrieve the most similar items from millions of vectors in milliseconds. It indexes vectors, supports metadata filters, and returns the top-k closest matches for a query embedding. Vector databases are the storage layer that makes production RAG practical.",
+    "meta": { "tags": ["vector-database", "ann", "top-k"] }
+  }
+]

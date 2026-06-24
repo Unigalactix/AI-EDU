@@ -1,0 +1,24 @@
+---
+const base = import.meta.env.BASE_URL;
+const path = Astro.url.pathname;
+const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const isActive = (p: string) => path.replace(/\/$/, '').endsWith(p.replace(/\/$/, ''));
+const items = [
+  { href: 'roadmap', label: 'Roadmap' },
+  { href: 'projects', label: 'Projects' },
+  { href: 'notes', label: 'Notes' },
+  { href: 'resources', label: 'Resources' },
+];
+---
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href={base}>AI<span>·</span>EDU</a>
+    <div class="nav-links">
+      {items.map((i) => (
+        <a href={link(i.href)} class={isActive(i.href) ? 'active' : ''}>{i.label}</a>
+      ))}
+      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</nav>

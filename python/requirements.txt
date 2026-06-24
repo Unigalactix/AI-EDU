@@ -1,0 +1,5 @@
+# No third-party dependencies are required — every project uses only the
+# Python standard library, so the code stays beginner-friendly and offline.
+#
+# Optional, only if you want to run the test suite:
+# pytest>=8.0

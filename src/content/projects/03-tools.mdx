@@ -1,0 +1,72 @@
+---
+title: "03 · Tool / Function Calling"
+summary: "Let the model decide when to call a tool, run it, and fold the result back into the answer — the loop that creates agents."
+order: 3
+track: primer
+difficulty: beginner
+technique: "Function Calling"
+demo: tools
+dataset: knowledge-base
+duration: "20 min"
+concepts: ["tool use", "function calling", "agent loop"]
+---
+
+import CodeTabs from '../../components/ui/CodeTabs.astro';
+
+## What you'll learn
+
+A model alone can only produce text. An **agent** wraps the model in a loop that
+can *act*: the model decides whether a tool is needed, the tool runs, and the
+result is fed back so the model can finish the answer.
+
+In the demo, try `What is 23 * 19?` (the model picks the **calculator**) versus
+`Look up vector database` (it picks **dataset search**) versus a plain question
+(no tool needed).
+
+## The tool-calling loop
+
+1. **Decide** — inspect the prompt for intent (here, simple keyword/pattern matching stands in for the model's function-calling decision).
+2. **Execute** — run the chosen tool with structured arguments.
+3. **Incorporate** — pass the tool's output back as context for the final answer.
+
+<CodeTabs>
+  <Fragment slot="js">
+```js
+import { decideToolCall, runTool, mockLLM } from '@lib/js';
+
+const prompt = 'What is 23 * 19?';
+const call = decideToolCall(prompt);
+// → { tool: 'calculator', args: { expression: '23 * 19' } }
+
+const result = runTool(call.tool, call.args, corpus);
+// → { tool: 'calculator', output: '437' }
+
+const answer = mockLLM(prompt, {
+  context: [`Tool ${result.tool} returned: ${result.output}`],
+});
+```
+  </Fragment>
+  <Fragment slot="python">
+```python
+from _shared.tools import decide_tool_call, run_tool
+from _shared.mock_llm import mock_llm
+
+prompt = "What is 23 * 19?"
+call = decide_tool_call(prompt)
+# → {"tool": "calculator", "args": {"expression": "23 * 19"}}
+
+result = run_tool(call["tool"], call["args"], corpus)
+# → {"tool": "calculator", "output": "437"}
+
+answer = mock_llm(prompt, context=[f"Tool {result['tool']} returned: {result['output']}"])
+```
+  </Fragment>
+</CodeTabs>
+
+## Why tools matter
+
+- **Fresh & exact.** Tools do math, hit APIs, or query data the model can't recall.
+- **Verifiable.** A calculator's `437` is checkable; a guessed number is not.
+- **Composable.** Stack several tools and a loop, and you have a capable agent.
+
+> Every project from here on is built on this loop. Master it and the rest is orchestration.

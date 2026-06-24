@@ -1,0 +1,74 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import DemoLoader from '../../components/demos/DemoLoader.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((p) => ({ params: { slug: p.id }, props: { project: p } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const d = project.data;
+const base = import.meta.env.BASE_URL;
+const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+---
+
+<BaseLayout title={d.title} description={d.summary}>
+  <a href={link('projects')} style="color:var(--text-dim); font-size:0.9rem;">← All projects</a>
+  <div class="proj-head">
+    <div class="meta">
+      <span class="chip">#{d.order}</span>
+      <span class={`badge ${d.track}`}>{d.track}</span>
+      <span class={`badge ${d.difficulty}`}>{d.difficulty}</span>
+      <span class="chip">{d.technique}</span>
+      <span class="chip">⏱ {d.duration}</span>
+    </div>
+    <h1>{d.title}</h1>
+    <p class="lead" style="color:var(--text-dim);">{d.summary}</p>
+    <div class="meta">{d.concepts.map((c) => <span class="chip">{c}</span>)}</div>
+  </div>
+
+  <div class="tabs" data-tabs>
+    <div class="tabbar" role="tablist">
+      <button class="tab active" data-tab="demo" role="tab">▶ Live demo</button>
+      <button class="tab" data-tab="theory" role="tab">📖 Theory &amp; code</button>
+    </div>
+
+    <div class="tabpanel" data-tab="demo">
+      <p style="color:var(--text-dim); font-size:0.92rem;">
+        This demo runs entirely in your browser using a deterministic mock model and a
+        static dataset. Same input → same output, every time.
+      </p>
+      <DemoLoader demo={d.demo} dataset={d.dataset ?? 'knowledge-base'} />
+    </div>
+
+    <div class="tabpanel prose" data-tab="theory" hidden>
+      <Content />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .proj-head { margin: 1rem 0 1.5rem; }
+  .proj-head .meta { gap: 0.4rem; margin: 0.5rem 0; }
+  .tabs { margin-top: 1rem; }
+  .tabbar { display: flex; gap: 0.3rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
+  .tab { background: transparent; border: none; color: var(--text-dim); padding: 0.6rem 1rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+</style>
+
+<script>
+  document.querySelectorAll('[data-tabs]').forEach((root) => {
+    const tabs = root.querySelectorAll('.tab');
+    const panels = root.querySelectorAll('.tabpanel');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        const name = tab.getAttribute('data-tab');
+        tabs.forEach((t) => t.classList.toggle('active', t === tab));
+        panels.forEach((p) => { (p as HTMLElement).hidden = p.getAttribute('data-tab') !== name; });
+      });
+    });
+  });
+</script>

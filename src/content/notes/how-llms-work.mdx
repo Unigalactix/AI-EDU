@@ -1,0 +1,38 @@
+---
+title: "How large language models work"
+summary: "Tokens, next-token prediction, context windows and why models hallucinate — the mental model behind everything else."
+order: 1
+category: fundamentals
+---
+
+## A model predicts the next token
+
+A large language model (LLM) is trained to do one thing: given some text,
+**predict the next token** (a token is roughly a word-piece). Generate one token,
+append it, and predict again — repeat, and you get fluent text. Everything an LLM
+"does" is this loop, steered by the prompt.
+
+## Context window
+
+The **context window** is the maximum number of tokens the model can read at once
+(prompt + generated output). Anything outside it is invisible to the model. This
+is *why* RAG exists: you can't paste a whole library into the prompt, so you
+retrieve only the most relevant chunks and fit them inside the window.
+
+## Why models hallucinate
+
+Because the model predicts *plausible* text, not *true* text. With no grounding it
+will happily invent a confident-sounding answer. Mitigations:
+
+- **Ground it** — supply trusted context and ask it to answer only from that.
+- **Cite sources** — make claims checkable.
+- **Constrain output** — formats and tools reduce room to wander.
+
+## Temperature & determinism
+
+Real models add randomness (a *temperature* setting) so the same prompt can give
+different answers. The demos on this site use a **deterministic mock** — same input
+always yields the same output — so you can study the mechanics without noise.
+
+> Keep this loop in mind: **prompt in → next-token prediction → text out**. Every
+> technique here is just a smarter way to build the prompt.

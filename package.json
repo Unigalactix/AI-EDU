@@ -1,0 +1,21 @@
+{
+  "name": "ai-edu",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Hands-on AI Engineering learning platform: RAG, Agentic RAG, Multi-Agent systems and Agent Teams taught through modular, beginner-friendly projects.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^4.0.0",
+    "@astrojs/preact": "^4.0.0",
+    "astro": "^5.1.0",
+    "preact": "^10.25.0",
+    "typescript": "^5.7.0"
+  }
+}
