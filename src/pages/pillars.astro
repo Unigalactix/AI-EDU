@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PillarsExplorer from '../components/demos/PillarsExplorer.tsx';
+---
+
+<BaseLayout
+  title="14 Pillars of Agentic AI"
+  description="An interactive explorer of the 14 core design patterns that make AI agents fast, reliable and smart — with animated diagrams you can play."
+>
+  <h1>The 14 Pillars of Agentic AI</h1>
+  <p class="lead" style="color:var(--text-dim); max-width:68ch;">
+    Production agents are not one giant prompt — they are systems built from a handful of
+    repeatable patterns. Pick a pillar, flip between the <strong>naïve</strong> and the
+    <strong>pattern</strong> approach, and press play to watch <em>why</em> it wins. Every
+    diagram is animated and every stat is the real trade-off the pattern buys you.
+  </p>
+
+  <PillarsExplorer client:visible />
+
+  <p style="color:var(--text-dim); margin-top:2rem; font-size:0.9rem; max-width:68ch;">
+    Want to build these yourself? Head to the
+    <a href="../projects/">hands-on projects</a> for runnable Python + JavaScript
+    implementations of prompting, embeddings, tools, RAG, agentic RAG and multi-agent teams.
+  </p>
+</BaseLayout>

@@ -4,7 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const base = import.meta.env.BASE_URL;
-const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const link = (p: string) => `${base}/${p}`.replace(/\/+/g, '/');
 const featured = projects.slice(0, 6);
 ---
 
@@ -40,6 +40,35 @@ const featured = projects.slice(0, 6);
     </div>
   </section>
 
+  <section class="pillars-banner">
+    <a class="card pillars-card" href={link('pillars')} style="color:inherit;">
+      <div>
+        <span class="badge core">interactive</span>
+        <h3>🧩 The 14 Pillars of Agentic AI</h3>
+        <p>
+          Explore the core design patterns behind production agents — parallel tool use,
+          multi-agent orchestration and advanced RAG — through animated diagrams you can
+          play. Flip between the naïve and the pattern approach to see exactly why each one wins.
+        </p>
+        <span class="pillars-go">Open the explorer →</span>
+      </div>
+    </a>
+  </section>
+
+  <section class="pillars-banner">
+    <a class="card raglab-card" href={link('rag-techniques')} style="color:inherit;">
+      <div>
+        <span class="badge core">interactive</span>
+        <h3>🔍 18 RAG Techniques, Benchmarked</h3>
+        <p>
+          From Simple RAG to Adaptive RAG, Fusion and CRAG — watch each retrieval pipeline
+          animate, see the extra step it adds, and compare all 18 on a live score leaderboard.
+        </p>
+        <span class="pillars-go raglab-go">Open the RAG Lab →</span>
+      </div>
+    </a>
+  </section>
+
   <section>
     <h2>The projects</h2>
     <div class="grid cols-3">
@@ -56,3 +85,21 @@ const featured = projects.slice(0, 6);
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .pillars-card {
+    display: block;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 14%, var(--bg-elev)), color-mix(in srgb, var(--accent-2) 14%, var(--bg-elev)));
+    border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  }
+  .pillars-card h3 { margin: 0.5rem 0 0.4rem; font-size: 1.4rem; }
+  .pillars-card p { max-width: 70ch; }
+  .pillars-go { display: inline-block; margin-top: 0.6rem; color: var(--accent); font-weight: 700; }
+  .raglab-card {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--good) 13%, var(--bg-elev)), color-mix(in srgb, var(--accent) 13%, var(--bg-elev)));
+    border-color: color-mix(in srgb, var(--good) 32%, var(--border));
+  }
+  .raglab-card h3 { margin: 0.5rem 0 0.4rem; font-size: 1.4rem; }
+  .raglab-card p { max-width: 70ch; }
+  .raglab-go { color: var(--good); }
+</style>

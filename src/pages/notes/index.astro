@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const notes = (await getCollection('notes')).sort((a, b) => a.data.order - b.data.order);
 const base = import.meta.env.BASE_URL;
-const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const link = (p: string) => `${base}/${p}`.replace(/\/+/g, '/');
 const categories = ['fundamentals', 'prompting', 'architecture'] as const;
 const labels: Record<string, string> = {
   fundamentals: 'LLM fundamentals',

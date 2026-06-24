@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import RagLab from '../components/demos/RagLab.tsx';
+---
+
+<BaseLayout
+  title="18 RAG Techniques"
+  description="An interactive lab of 18 Retrieval-Augmented Generation techniques — animated pipelines and a benchmark leaderboard, from Simple RAG to Adaptive RAG, Fusion and CRAG."
+>
+  <h1>18 RAG Techniques, Benchmarked</h1>
+  <p class="lead" style="color:var(--text-dim); max-width:68ch;">
+    Retrieval-Augmented Generation is not one algorithm — it's a toolbox. This lab walks
+    through 18 techniques, from <strong>Simple RAG</strong> to <strong>Adaptive RAG</strong>,
+    each scored on the same hard query. Pick a technique to watch its pipeline animate and see
+    the extra step it adds, or open the <strong>leaderboard</strong> to compare all 18 at once.
+  </p>
+
+  <RagLab client:visible />
+
+  <p style="color:var(--text-dim); margin-top:2rem; font-size:0.9rem; max-width:68ch;">
+    Scores come from a single complex test query (judged 0–1), so treat them as a teaching
+    signal rather than gospel — the lesson is that <em>different queries need different
+    strategies</em>. Ready to build one? Try the runnable
+    <a href="../projects/04-rag/">RAG</a> and
+    <a href="../projects/05-agentic-rag/">Agentic RAG</a> projects, or explore the
+    <a href="../pillars/">14 Pillars of Agentic AI</a>.
+  </p>
+</BaseLayout>

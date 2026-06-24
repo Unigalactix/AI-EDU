@@ -1,9 +1,11 @@
 ---
 const base = import.meta.env.BASE_URL;
 const path = Astro.url.pathname;
-const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const link = (p: string) => `${base}/${p}`.replace(/\/+/g, '/');
 const isActive = (p: string) => path.replace(/\/$/, '').endsWith(p.replace(/\/$/, ''));
 const items = [
+  { href: 'pillars', label: 'Pillars' },
+  { href: 'rag-techniques', label: 'RAG Lab' },
   { href: 'roadmap', label: 'Roadmap' },
   { href: 'projects', label: 'Projects' },
   { href: 'notes', label: 'Notes' },

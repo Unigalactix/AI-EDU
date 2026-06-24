@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const base = import.meta.env.BASE_URL;
-const link = (p: string) => `${base}${p}`.replace(/\/+/g, '/');
+const link = (p: string) => `${base}/${p}`.replace(/\/+/g, '/');
 ---
 
 <BaseLayout title="Projects">
