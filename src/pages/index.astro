@@ -1,11 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProgressSummary from '../components/demos/ProgressSummary.tsx';
 
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const base = import.meta.env.BASE_URL;
 const link = (p: string) => `${base}/${p}`.replace(/\/+/g, '/');
 const featured = projects.slice(0, 6);
+const projectList = projects.map((p) => ({ slug: p.id, title: p.data.title }));
 ---
 
 <BaseLayout title="Learn AI Engineering by building">
@@ -71,6 +73,9 @@ const featured = projects.slice(0, 6);
 
   <section>
     <h2>The projects</h2>
+    <div style="margin: 0 0 1.5rem;">
+      <ProgressSummary projects={projectList} client:load />
+    </div>
     <div class="grid cols-3">
       {featured.map((p) => (
         <a class="card" href={link(`projects/${p.id}`)} style="color:inherit;">
@@ -82,6 +87,24 @@ const featured = projects.slice(0, 6);
           <p>{p.data.summary}</p>
         </a>
       ))}
+    </div>
+  </section>
+
+  <section>
+    <h2>More to explore</h2>
+    <div class="grid cols-3">
+      <a class="card" href={link('playground')} style="color:inherit;">
+        <h3>🛠 Playground</h3>
+        <p>Hands-on exercises: drag-and-drop the RAG pipeline into order, then tune a live retriever.</p>
+      </a>
+      <a class="card" href={link('glossary')} style="color:inherit;">
+        <h3>📖 Glossary</h3>
+        <p>Plain-language definitions of every term, from embeddings to orchestration. Filterable.</p>
+      </a>
+      <a class="card" href={link('notes')} style="color:inherit;">
+        <h3>📝 Technical notes</h3>
+        <p>Deeper reads on how LLMs work, prompting strategies and architecture patterns.</p>
+      </a>
     </div>
   </section>
 </BaseLayout>

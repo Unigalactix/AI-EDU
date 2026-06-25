@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GlossaryView from '../components/demos/GlossaryView.tsx';
+---
+
+<BaseLayout
+  title="Glossary"
+  description="Plain-language definitions of the AI engineering terms used across the site — from embeddings and RAG to agents and orchestration."
+>
+  <h1>📖 Glossary</h1>
+  <p class="lead" style="color:var(--text-dim); max-width:68ch;">
+    Quick, jargon-light definitions for the vocabulary used across the projects and notes.
+    Filter by keyword or category.
+  </p>
+
+  <GlossaryView client:visible />
+</BaseLayout>

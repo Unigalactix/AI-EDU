@@ -31,10 +31,40 @@
     border-bottom: 2px solid transparent;
   }
   .codetabs-btn.active { color: var(--text); border-bottom-color: var(--accent); }
+  .codetabs-panel { position: relative; }
   .codetabs-panel :global(pre) { margin: 0; border: none; border-radius: 0; }
+  .copy-btn {
+    position: absolute; top: 0.5rem; right: 0.5rem; z-index: 2;
+    background: var(--bg-elev-2); border: 1px solid var(--border); color: var(--text-dim);
+    font-size: 0.75rem; padding: 0.25rem 0.55rem; border-radius: 6px; cursor: pointer;
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .codetabs-panel:hover .copy-btn, .copy-btn:focus { opacity: 1; }
+  .copy-btn.copied { color: var(--good); border-color: var(--good); }
 </style>
 
 <script>
+  // Add a copy button to every code panel on the page.
+  document.querySelectorAll('.codetabs-panel').forEach((panel) => {
+    const pre = panel.querySelector('pre');
+    if (!pre) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.type = 'button';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.innerText);
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+      } catch (e) {
+        btn.textContent = 'Failed';
+      }
+    });
+    panel.appendChild(btn);
+  });
+
   // Wire up every CodeTabs block independently.
   document.querySelectorAll('[data-codetabs]').forEach((root) => {
     const btns = root.querySelectorAll('.codetabs-btn');

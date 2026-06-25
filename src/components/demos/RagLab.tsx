@@ -32,6 +32,11 @@ function useProgress() {
   }
   function play(duration = 2600) {
     cancelAnimationFrame(raf.current);
+    if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setProgress(1);
+      setPlaying(false);
+      return;
+    }
     dur.current = duration;
     start.current = 0;
     setProgress(0);

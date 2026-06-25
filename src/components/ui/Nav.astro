@@ -1,4 +1,5 @@
 ---
+import SearchBox from '../demos/SearchBox';
 const base = import.meta.env.BASE_URL;
 const path = Astro.url.pathname;
 const link = (p: string) => `${base}/${p}`.replace(/\/+/g, '/');
@@ -6,9 +7,11 @@ const isActive = (p: string) => path.replace(/\/$/, '').endsWith(p.replace(/\/$/
 const items = [
   { href: 'pillars', label: 'Pillars' },
   { href: 'rag-techniques', label: 'RAG Lab' },
+  { href: 'playground', label: 'Playground' },
   { href: 'roadmap', label: 'Roadmap' },
   { href: 'projects', label: 'Projects' },
   { href: 'notes', label: 'Notes' },
+  { href: 'glossary', label: 'Glossary' },
   { href: 'resources', label: 'Resources' },
 ];
 ---
@@ -20,7 +23,37 @@ const items = [
       {items.map((i) => (
         <a href={link(i.href)} class={isActive(i.href) ? 'active' : ''}>{i.label}</a>
       ))}
-      <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://github.com/Unigalactix/AI-EDU" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://rajeshkodaganti.com" target="_blank" rel="noopener">Author</a>
+    </div>
+    <div class="nav-tools">
+      <SearchBox base={base} client:load />
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Toggle colour theme" title="Toggle theme">🌙</button>
     </div>
   </div>
 </nav>
+
+<style>
+  .nav-tools { display: flex; align-items: center; gap: 0.5rem; margin-left: 0.5rem; }
+  @media (max-width: 720px) { .nav-links { gap: 0.7rem; } }
+</style>
+
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('theme-toggle');
+    if (!btn) return;
+    function current() {
+      var attr = document.documentElement.getAttribute('data-theme');
+      if (attr) return attr;
+      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    function paint() { btn.textContent = current() === 'light' ? '☀️' : '🌙'; }
+    paint();
+    btn.addEventListener('click', function () {
+      var next = current() === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem('aiedu-theme', next); } catch (e) {}
+      paint();
+    });
+  })();
+</script>

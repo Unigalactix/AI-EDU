@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PipelineBuilder from '../components/demos/PipelineBuilder.tsx';
+import ParamSandbox from '../components/demos/ParamSandbox.tsx';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<BaseLayout
+  title="Playground"
+  description="Hands-on AI engineering exercises: a drag-and-drop RAG pipeline puzzle and a live retrieval tuner you can experiment with right in the browser."
+>
+  <h1>🛠 Playground</h1>
+  <p class="lead" style="color:var(--text-dim); max-width:68ch;">
+    Learn by doing. These exercises run entirely in your browser with deterministic
+    mock models — drag, tweak and experiment freely. No setup, nothing to break.
+  </p>
+
+  <section style="margin-top:2.5rem;">
+    <h2>Exercise 1 · Build the RAG pipeline</h2>
+    <p style="color:var(--text-dim); max-width:68ch;">
+      The five stages of a RAG system are shuffled below. Drag them (or use the ▲▼ buttons)
+      into the order they actually run, then check your answer.
+    </p>
+    <PipelineBuilder client:visible />
+  </section>
+
+  <section style="margin-top:3rem;">
+    <h2>Exercise 2 · Tune the retriever</h2>
+    <p style="color:var(--text-dim); max-width:68ch;">
+      Retrieval is a balancing act. Adjust <strong>top-k</strong> and the
+      <strong>similarity threshold</strong> and watch which documents make it into the
+      context — too few and the model starves, too many and it drowns in noise.
+    </p>
+    <ParamSandbox client:visible dataset="knowledge-base" base={base} />
+  </section>
+
+  <p style="color:var(--text-dim); margin-top:2.5rem; font-size:0.9rem; max-width:68ch;">
+    Want the theory behind these? Read the runnable
+    <a href="../projects/04-rag/">RAG project</a> and the
+    <a href="../rag-techniques/">18 RAG Techniques lab</a>.
+  </p>
+</BaseLayout>
